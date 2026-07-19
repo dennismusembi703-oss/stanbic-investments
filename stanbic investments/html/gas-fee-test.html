@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Fee Modal Test</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h1>Gas Fee Modal Test</h1>
+        <button id="test-gas-fee-btn">Test Gas Fee Modal</button>
+    </div>
+
+    <script>
+        // Mock user object for testing
+        const user = {
+            assets: { TRX: 1000, USDT: 100 },
+            hasPaidBlockchainFee: false
+        };
+
+        // Mock asset data
+        const assetData = {
+            'tether': { name: 'Tether', symbol: 'USDT', image: 'images/bitcoin.png', coinGeckoId: 'tether' }
+        };
+
+        // Mock transactions array
+        let transactions = [];
+
+        // Mock update functions
+        function updateBalances() { console.log('Balances updated'); }
+        function renderTransactions() { console.log('Transactions rendered'); }
+        function displayUserAssets() { console.log('Assets displayed'); }
+
+        // Include the gas fee modal functions from dashboard.js
+        function showGasFeeModal(coinKey, action, amount, totalCost) {
+            const gasFeeAmount = 526; // TRX 526 gas fee
+
+            // Create gas fee modal
+            const modalHtml = `
+                <div class="gas-fee-modal-overlay" id="gas-fee-modal">
+                    <div class="gas-fee-modal">
+                        <div class="gas-fee-header">
+                            <h3>🔥 Blockchain Gas Fee Required</h3>
+                            <button class="gas-fee-close" id="gas-fee-close">×</button>
+                        </div>
+
+                        <div class="gas-fee-body">
+                            <div class="gas-fee-info">
+                                <div class="fee-notice">
+                                    <p><strong>⚠️ USDT Processing Fee</strong></p>
+                                    <p>To process USDT transactions on the blockchain, you need to pay a one-time gas fee.</p>
+                                </div>
+
+                                <div class="fee-details">
+                                    <div class="fee-item">
+                                        <span class="label">Required Gas Fee:</span>
+                                        <span class="value">${gasFeeAmount} TRX</span>
+                                    </div>
+                                    <div class="fee-item">
+                                        <span class="label">Your TRX Balance:</span>
+                                        <span class="value" id="user-trx-balance">${(user.assets.TRX || 0).toFixed(2)}</span>
+                                    </div>
+                                </div>
+
+                                <div class="trade-preview">
+                                    <p><strong>Pending Trade:</strong></p>
+                                    <p>${action === 'buy' ? 'Buy' : 'Sell'} ${amount.toFixed(8)} USDT for $${totalCost.toFixed(2)}</p>
+                                </div>
+                            </div>
+
+                            <div class="gas-fee-actions">
+                                <button class="pay-fee-btn" id="pay-gas-fee-btn">
+                                    💰 Pay Gas Fee & Complete Trade
+                                </button>
+                                <button class="cancel-fee-btn" id="cancel-gas-fee-btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // Add event listeners
+            const modal = document.getElementById('gas-fee-modal');
+            const closeBtn = document.getElementById('gas-fee-close');
+            const cancelBtn = document.getElementById('cancel-gas-fee-btn');
+            const payBtn = document.getElementById('pay-gas-fee-btn');
+
+            // Close modal functions
+            const closeModal = () => {
+                modal.remove();
+            };
+
+            closeBtn?.addEventListener('click', closeModal);
+            cancelBtn?.addEventListener('click', closeModal);
+
+            // Click outside to close
+            modal?.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Pay gas fee and complete trade
+            payBtn?.addEventListener('click', () => {
+                processGasFeePayment(gasFeeAmount, coinKey, action, amount, totalCost);
+                closeModal();
+            });
+        }
+
+        function processGasFeePayment(gasFeeAmount, coinKey, action, amount, totalCost) {
+            const userTrxBalance = user.assets.TRX || 0;
+
+            if (userTrxBalance < gasFeeAmount) {
+                showTempPopup(`❌ Insufficient TRX balance. You need ${gasFeeAmount} TRX but only have ${userTrxBalance.toFixed(2)} TRX.`);
+                return;
+            }
+
+            // Deduct gas fee
+            user.assets.TRX -= gasFeeAmount;
+
+            // Mark gas fee as paid
+            user.hasPaidBlockchainFee = true;
+
+            // Record gas fee transaction
+            transactions.push({
+                type: 'Gas Fee',
+                amount: `${gasFeeAmount} TRX`,
+                date: new Date().toLocaleDateString(),
+                status: 'completed'
+            });
+
+            // Show success message
+            showTempPopup(`✅ Gas fee paid successfully! ${gasFeeAmount} TRX deducted from your balance.`);
+
+            // Now execute the original trade
+            executeTrade(coinKey, action, amount, totalCost);
+        }
+
+        function executeTrade(coinKey, action, amount, totalCost) {
+            const assetInfo = assetData[coinKey];
+            const symbol = assetInfo.symbol;
+
+            showTempPopup(`✅ Successfully executed ${action} trade: ${amount.toFixed(8)} ${symbol} for $${totalCost.toFixed(2)} USDT`);
+        }
+
+        // Test button
+        document.getElementById('test-gas-fee-btn').addEventListener('click', () => {
+            showGasFeeModal('tether', 'buy', 10, 10);
+        });
+    </script>
+</body>
+</html>
