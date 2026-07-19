@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register - Stanbic Investments</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: #081018; color:#e7eef1; font-family:Inter,system-ui,Arial,Helvetica,sans-serif; }
+    .container{ max-width:760px; margin:48px auto; padding:24px; }
+    .card{ background:rgba(18,23,34,0.95); border-radius:12px; padding:20px; box-shadow:0 12px 36px rgba(0,0,0,0.6); }
+    h1{ color:#00ff99; margin:0 0 8px; }
+    form .row{ display:flex; gap:12px; }
+    input,select{ width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); color:#fff; }
+    label{ font-size:13px; color:#9beac7; display:block; margin-bottom:6px; }
+    .muted{ color:#97aebb; font-size:13px; }
+    .actions{ display:flex; gap:10px; margin-top:16px; }
+    .btn{ background:#00c853; color:#001; padding:10px 14px; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
+    .btn.secondary{ background:transparent; color:#fff; border:1px solid rgba(255,255,255,0.06); }
+    .note{ margin-top:12px; font-size:13px; color:#bcd; }
+    .nav-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .small-link{ color:#00ff99; text-decoration:none; font-weight:600; }
+    .error{ color:#ff7b7b; font-weight:700; margin-top:8px; }
+    /* input with icon */
+    .input-with-icon{ display:flex; align-items:center; gap:10px; }
+    .input-with-icon svg{ width:18px; height:18px; flex:0 0 18px; opacity:0.95; }
+    .input-with-icon input{ flex:1; }
+    h3{ color:#c8ffe0; display:flex; align-items:center; gap:10px; font-size:18px; }
+    h3 svg{ width:20px; height:20px; flex:0 0 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="nav-row">
+        <div style="display:flex;align-items:center;gap:12px;"><img src="../images/register.png" id="reg-img" alt="Register" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"> <h1>Create Account</h1></div>
+        <a href="login.html" class="small-link">Already have an account? Sign in</a>
+      </div>
+
+      <p class="muted">Sign up to start trading cryptocurrencies. Your information is stored locally for this demo.</p>
+
+      <form id="register-form">
+        <div id="stepper">
+          <div class="step" data-step="1">
+            <h3>Register / Verify — 👤 Personal</h3>
+            <div style="margin-top:8px;">
+              <label for="email">Email</label>
+              <div class="input-with-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M21 6H3v2.5L12 13l9-4.5V6z"/></svg>
+                <input id="email" name="email" type="email" required>
+              </div>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:8px; align-items:flex-end;">
+              <div style="flex:1;">
+                <label for="phone">Phone</label>
+                <div class="input-with-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 3.08 4.18 2 2 0 0 1 5 2h3a2 2 0 0 1 2 1.72c.12 1.05.35 2.08.69 3.06a2 2 0 0 1-.45 2.11L9.91 10.09a13 13 0 0 0 5 5l1.2-1.2a2 2 0 0 1 2.11-.45c.98.34 2.01.57 3.06.69A2 2 0 0 1 22 16.92z"/></svg>
+                  <input id="phone" name="phone" type="tel" placeholder="254712345678">
+                </div>
+              </div>
+              <div style="width:160px;">
+                <label>&nbsp;</label>
+                <button type="button" class="btn secondary" id="send-code-btn">Verify Phone</button>
+              </div>
+            </div>
+
+            <div id="verify-row" style="display:none;margin-top:10px;">
+              <label for="phone-code">Enter SMS Code</label>
+              <div class="input-with-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11V7"/><path d="M6 11v-1a6 6 0 1 1 12 0v1"/></svg>
+                <input id="phone-code" placeholder="1234">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;">
+              <div>
+                <label for="passcode">Passcode</label>
+                <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><input id="passcode" name="passcode" type="password" minlength="4" required></div>
+              </div>
+              <div>
+                <label for="confirmPass">Confirm Passcode</label>
+                <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><input id="confirmPass" name="confirmPass" type="password" minlength="4" required></div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="passport">Passport Photo</label>
+              <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3"/></svg><input id="passport" type="file" accept="image/*"></div>
+              <div id="passport-preview" style="margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="actions" style="margin-top:14px;">
+              <button type="button" class="btn" id="to-step-2">Next</button>
+              <button type="button" class="btn secondary" id="cancel-btn">Cancel</button>
+            </div>
+          </div>
+
+          <div class="step" data-step="2" style="display:none;">
+            <h3>Address & Identity</h3>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;">
+              <div>
+                <label for="firstName">First Name</label>
+                <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input id="firstName" name="firstName" required></div>
+              </div>
+              <div>
+                <label for="lastName">Last Name</label>
+                <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><input id="lastName" name="lastName" required></div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="pobox">P.O Box</label>
+              <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M21 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7"/><path d="M7 7v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></svg><input id="pobox" name="pobox"></div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="street">Street Address</label>
+              <div class="input-with-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#00ff99" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><input id="street" name="street"></div>
+            </div>
+
+            <div class="actions" style="margin-top:14px;">
+              <button class="btn" type="button" id="create-account">Create Account</button>
+              <button type="button" class="btn secondary" id="back-step-1">Back</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="reg-error" class="error" style="display:none"></div>
+        <div class="note">By creating an account you agree to the demo terms. This site stores data in `localStorage` (client-side).</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const form = document.getElementById('register-form');
+      const errEl = document.getElementById('reg-error');
+      const cancelBtn = document.getElementById('cancel-btn');
+      const toStep2Btn = document.getElementById('to-step-2');
+      const backStep1Btn = document.getElementById('back-step-1');
+      const createBtn = document.getElementById('create-account');
+      const sendCodeBtn = document.getElementById('send-code-btn');
+      const verifyRow = document.getElementById('verify-row');
+      const phoneCodeInput = document.getElementById('phone-code');
+      const passportInput = document.getElementById('passport');
+      const passportPreview = document.getElementById('passport-preview');
+
+      let activeStep = 1;
+      let tempData = {};
+      let lastCode = null;
+
+      function showError(msg){ errEl.textContent = msg; errEl.style.display = 'block'; }
+      function clearError(){ errEl.textContent=''; errEl.style.display='none'; }
+
+      function showStep(n){ document.querySelectorAll('#stepper .step').forEach(el=> el.style.display = el.dataset.step==n ? '' : 'none'); activeStep = n; }
+
+      function showTempPopup(message, ms = 1300){
+        const existing = document.getElementById('reg-temp-popup'); if(existing) existing.remove();
+        const el = document.createElement('div'); el.id = 'reg-temp-popup';
+        el.style.position = 'fixed'; el.style.left = '50%'; el.style.top = '18%'; el.style.transform = 'translateX(-50%)';
+        el.style.background = 'rgba(0,200,83,0.12)'; el.style.color = '#eafff0'; el.style.padding = '12px 18px'; el.style.borderRadius = '10px';
+        el.style.zIndex = 2000; el.style.fontWeight = 700; el.textContent = message; document.body.appendChild(el);
+        setTimeout(()=>{ el.style.opacity = '0'; setTimeout(()=> el.remove(), 220); }, ms);
+      }
+
+      function getUsers(){ try{ const u = JSON.parse(localStorage.getItem('users')||'[]'); return Array.isArray(u)?u:[];}catch(e){return[]} }
+      function saveUsers(list){ localStorage.setItem('users', JSON.stringify(list)); }
+
+      function isValidEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+      function isStrongPass(p){ return typeof p === 'string' && p.length >= 6 && /\d/.test(p); }
+
+      // passport preview
+      passportInput?.addEventListener('change', async (e)=>{
+        const f = e.target.files && e.target.files[0];
+        if(!f) return;
+        if(!f.type.startsWith('image/')){ showError('Passport must be an image'); return; }
+        if(f.size > 5*1024*1024){ showError('Image too large (max 5MB)'); return; }
+        const dataUrl = await new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(f); });
+        passportPreview.style.display='block'; passportPreview.innerHTML = `<img src="${dataUrl}" style="max-width:160px;border-radius:8px;">`;
+        tempData.passport = dataUrl;
+        clearError();
+      });
+
+      // phone verification (simulated)
+      sendCodeBtn?.addEventListener('click', ()=>{
+        const phone = document.getElementById('phone').value.trim();
+        if(!phone){ showError('Enter phone before verification'); return; }
+        lastCode = Math.floor(1000 + Math.random()*9000).toString();
+        verifyRow.style.display = 'block';
+        showTempPopup('SMS code (simulation): ' + lastCode, 2200);
+      });
+
+      toStep2Btn?.addEventListener('click', ()=>{
+        clearError();
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const pass = document.getElementById('passcode').value;
+        const confirm = document.getElementById('confirmPass').value;
+        const phone = document.getElementById('phone').value.trim();
+
+        if(!email || !pass){ showError('Email and passcode required'); return; }
+        if(!isValidEmail(email)){ showError('Enter a valid email address'); return; }
+        if(pass !== confirm){ showError('Passcodes do not match'); return; }
+        if(!isStrongPass(pass)){ showError('Passcode must be at least 6 chars and include a number'); return; }
+        if(lastCode && phoneCodeInput && phoneCodeInput.value.trim() !== lastCode){ showError('Invalid phone verification code'); return; }
+
+        // persist temp data
+        tempData.email = email; tempData.phone = phone; tempData.passcode = pass;
+        showStep(2);
+      });
+
+      backStep1Btn?.addEventListener('click', ()=>{ showStep(1); });
+
+      cancelBtn?.addEventListener('click', ()=>{ window.location.href='index.html'; });
+
+      createBtn?.addEventListener('click', ()=>{
+        clearError();
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const pobox = document.getElementById('pobox').value.trim();
+        const street = document.getElementById('street').value.trim();
+
+        if(!firstName || !lastName){ showError('Enter your name'); return; }
+
+        const users = getUsers();
+        if(users.find(u=>u.email === tempData.email)){ showError('An account with this email already exists'); return; }
+
+        const newUser = {
+          id: 'USR-'+Date.now().toString(36).toUpperCase().slice(4),
+          firstName, lastName,
+          email: tempData.email,
+          phone: tempData.phone,
+          passcode: tempData.passcode,
+          passport: tempData.passport || '',
+          address: { pobox, street },
+          balance: 0,
+          assets: { BTC:0, ETH:0, SOL:0, TRX:0, USDT:0 },
+          transactions: []
+        };
+
+        users.unshift(newUser); saveUsers(users);
+        localStorage.setItem('currentUser', JSON.stringify(newUser));
+        showTempPopup('Account created — redirecting...', 1200);
+        setTimeout(()=> window.location.href='dashboard.html', 1200);
+      });
+
+      // initial
+      showStep(1);
+    })();
+  </script>
+</body>
+</html>

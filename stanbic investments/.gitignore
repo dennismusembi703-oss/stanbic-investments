@@ -1,0 +1,14 @@
+# Ignore node modules if using Node tooling
+node_modules/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore editor folders
+.vscode/
+
+# Ignore log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

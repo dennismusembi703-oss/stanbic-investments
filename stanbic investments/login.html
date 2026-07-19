@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Stanbic Investments</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container">
+  <img src="../images/logo.png" alt="Stanbic Logo" style="display: block; margin: 0 auto 20px; max-width: 150px;">
+  <h2>Login</h2>
+  <form id="login-form">
+    <label>Email or Phone</label><input type="text" id="login-email" required>
+    <label>Password</label><input type="password" id="login-passcode" required>
+    <button type="submit" class="btn">Login</button>
+  </form>
+  <p style="margin-top:12px;"><a id="forgot-btn" href="#" style="color:#00c853;">Forgot Password?</a></p>
+  <p style="margin-top: 20px;"><a href="index.html" style="color: #00c853;">Create New Account</a></p>
+  <div id="login-msg" style="color:red;margin-top:10px;"></div>
+</div>
+
+<script>
+const existingUser = JSON.parse(localStorage.getItem("currentUser"));
+if (existingUser) {
+  window.location.href = "dashboard.html";
+}
+
+const loginForm = document.getElementById("login-form");
+const loginEmail = document.getElementById("login-email");
+const loginPasscode = document.getElementById("login-passcode");
+const loginMsg = document.getElementById("login-msg");
+const forgotBtn = document.getElementById("forgot-btn");
+
+loginForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  loginMsg.textContent = "";
+
+  const credential = loginEmail.value.trim();
+  const passcode = loginPasscode.value.trim();
+
+  if (!credential || !passcode) {
+    loginMsg.textContent = "Please enter your email and passcode.";
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find((u) =>
+    (u.email === credential || u.phone === credential) && u.passcode === passcode
+  );
+
+  if (!user) {
+    loginMsg.textContent = "Invalid credentials";
+    return;
+  }
+
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.removeItem("adminSession");
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "dashboard.html";
+});
+
+forgotBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const email = prompt("Enter your registered email");
+  if (!email) return;
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userIndex = users.findIndex((u) => u.email === email);
+
+  if (userIndex === -1) {
+    alert("Email not found");
+    return;
+  }
+
+  alert("📧 Password reset link sent (SIMULATION)");
+  const newPass = prompt("Enter new passcode");
+
+  if (newPass) {
+    users[userIndex].passcode = newPass;
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("✅ Passcode updated! You can login now.");
+  }
+});
+</script>
